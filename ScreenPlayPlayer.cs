@@ -42,25 +42,31 @@ public class ScreenPlayPlayer : MonoBehaviour {
 
 	// TODO: Get next image spawner
 
+	private Spawner getSpawnerForItem(ScreenPlayItem screenPlayItem) {
+		Spawner spawner = null;
+
+		switch (screenPlayItem.type) {
+		case ItemType.audio:
+			spawner = new AudioSpawner()
+				.setAudioSource(getNextAudioSource())
+				.setMediaObject(Resources.Load(screenPlayItem.url) as AudioClip);
+			break;
+		case ItemType.image:
+			spawner = new ImageSpawner()
+				// TODO: Set image source
+				.setMediaObject(Resources.Load(screenPlayItem.url) as Texture);
+			break;
+		default:
+			Debug.Log("Unknown item: " + screenPlayItem);
+			break;
+		}
+
+		return spawner;
+	}
+
 	public void play() {
 		foreach (ScreenPlayItem item in _screenPlay.getItems()) {
-			Spawner spawner = null;
-
-			switch (item.type) {
-			case ItemType.audio:
-				spawner = new AudioSpawner()
-					.setAudioSource(getNextAudioSource())
-					.setMediaObject(Resources.Load(item.url) as AudioClip);
-				break;
-			case ItemType.image:
-				spawner = new ImageSpawner()
-					// TODO: Set image source
-					.setMediaObject(Resources.Load(item.url) as Texture);
-				break;
-			default:
-				Debug.Log("Unknown item: " + item);
-				break;
-			}
+			spawner = getSpawnerForItem(item);
 
 			if (spawner != null)
 				spawner.spawnDelayed(item.delay);
