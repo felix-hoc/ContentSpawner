@@ -1,8 +1,8 @@
 # ContentSpawner
 Scriptable content spawner for Unity3D.
 
-# The spawned media objects
-... have to be located in Resources folder. URL is path starting from ther.e
+# The media objects
+... which you'd like to spawn have to be located in Resources folder. URL is path starting from there.
 
 # ScreenPlay definition file
 The ScreenPlay definition file has to be in the same folder as the binary or in top folder of your project. It needs to be valid Json and have the following structure:
