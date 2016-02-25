@@ -18,8 +18,6 @@ public class RingList<T> {
 }
 
 public class ScreenPlayPlayer : MonoBehaviour {
-	private static readonly string SCREENPLAY_FILE_NAME = "screenPlay.json";
-
 	private ScreenPlay _screenPlay;
 
 	public AudioSource[] _audioSources;
@@ -29,7 +27,7 @@ public class ScreenPlayPlayer : MonoBehaviour {
 
 	public void Start() {
 		Spawner.init(this);
-		_screenPlay = ScreenPlay.loadFromFile(SCREENPLAY_FILE_NAME);
+		_screenPlay = ScreenPlay.loadFromFile(screenPlayName);
 		_audioSourcesRing = new RingList<AudioSource>(_audioSources);
 
 		// TODO: Move to action section
