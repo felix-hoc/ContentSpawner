@@ -20,14 +20,10 @@ public struct Delay {
 }
 
 [System.Serializable]
-public class ScreenPlayItem : System.Object {
-	public string url = "";
+public struct ScreenPlayItem {
+	public string url;
 	public Delay delay;
-	public ItemType type = ItemType.unknown;
-
-	public override string ToString () {
-		return JsonUtility.ToJson(this, true);
-	}
+	public ItemType type;
 }
 
 [System.Serializable]
