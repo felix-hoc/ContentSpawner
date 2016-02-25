@@ -42,6 +42,22 @@ public class ScreenPlayPlayer : MonoBehaviour {
 
 	// TODO: Get next image spawner
 
+	private float getNextTimestamp(float currentTime, Delay delay) {
+		switch (delay.type) {
+		case DelayType.absolute:
+			currentTime = delay.seconds;
+			break;
+		case DelayType.relativeToPrevious:
+			currentTime += delay.seconds;
+			break;
+		default:
+			Debug.Log("Unknown delay type: " + delay);
+			break;
+		}
+
+		return currentTime;
+	}
+
 	private Spawner getSpawnerForItem(ScreenPlayItem screenPlayItem) {
 		Spawner spawner = null;
 
@@ -65,11 +81,17 @@ public class ScreenPlayPlayer : MonoBehaviour {
 	}
 
 	public void play() {
+		float currentTime = 0f;
+		Spawner spawner = null;
+
 		foreach (ScreenPlayItem item in _screenPlay.getItems()) {
 			spawner = getSpawnerForItem(item);
 
-			if (spawner != null)
-				spawner.spawnDelayed(item.delay);
+			if (spawner != null) {
+				currentTime = getNextTimestamp(currentTime, item.delay);
+				Debug.Log("Spawning " + item + " after " + currentTime);
+				spawner.spawnDelayed(currentTime);
+			}
 		}
 	}
 }

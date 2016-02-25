@@ -12,12 +12,18 @@ The ScreenPlay definition file has to be in the same folder as the binary or in 
   "_screenPlayItems":[
 		{
 			"url":"bowling_noise",
-			"delay":2.0,
+			"delay":  {
+				"seconds":2.0,
+				"type":0
+			},
 			"type":1
 		},
 		{
 			"url":"sunset_image",
-			"delay":1.0,
+			"delay":  {
+				"seconds":1.0,
+				"type":1
+			},
 			"type":2
 		},
 		...
@@ -25,7 +31,15 @@ The ScreenPlay definition file has to be in the same folder as the binary or in 
 }
 </pre>
 
-Types:
+### Item types:
+0 .... unknown
 
-1. Audio
-1. Image
+1 .... Audio
+
+2 .... Image
+
+
+### Delay types:
+0 .... absolute to play command
+
+1 .... relative to previous item

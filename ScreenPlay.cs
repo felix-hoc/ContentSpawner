@@ -8,10 +8,21 @@ public enum ItemType {
 	image
 }
 
+public enum DelayType {
+	absolute,
+	relativeToPrevious
+}
+
+[System.Serializable]
+public struct Delay {
+	public float seconds;
+	public DelayType type;
+}
+
 [System.Serializable]
 public class ScreenPlayItem : System.Object {
 	public string url = "";
-	public float delay = 0f;
+	public Delay delay;
 	public ItemType type = ItemType.unknown;
 
 	public override string ToString () {
