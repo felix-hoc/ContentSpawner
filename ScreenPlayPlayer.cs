@@ -25,6 +25,7 @@ public class ScreenPlayPlayer : MonoBehaviour {
 	public GameObject[] _imageSources;
 
 	public string screenPlayName;
+	public bool _autostart = false;
 
 	private RingList<AudioSource> _audioSourcesRing;
 	private RingList<GameObject> _imageSourcesRing;
@@ -35,8 +36,8 @@ public class ScreenPlayPlayer : MonoBehaviour {
 		_audioSourcesRing = new RingList<AudioSource>(_audioSources);
 		_imageSourcesRing = new RingList<GameObject> (_imageSources);
 
-		// TODO: Move to action section
-		play();
+		if (_autostart)
+			play();
 	}
 
 	private AudioSource getNextAudioSource() {
