@@ -46,7 +46,7 @@ public class AudioSpawner : MediaSpawner<AudioClip> {
 	}
 
 	public override void spawn() {
-		AudioClip ac = getMediaObject() as AudioClip;
+		AudioClip ac = getMediaObject();
 		Debug.Log("Play audio: " + ac.name);
 		_audioSource.PlayOneShot(getMediaObject());
 	}

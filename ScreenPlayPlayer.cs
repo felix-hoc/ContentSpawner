@@ -68,11 +68,13 @@ public class ScreenPlayPlayer : MonoBehaviour {
 
 		switch (screenPlayItem.type) {
 		case ItemType.audio:
+			Debug.Log("New audio spawner: " + screenPlayItem);
 			spawner = new AudioSpawner()
 				.setAudioSource(getNextAudioSource())
 				.setMediaObject(Resources.Load(screenPlayItem.url) as AudioClip);
 			break;
 		case ItemType.image:
+			Debug.Log("New image spawner: " + screenPlayItem);
 			spawner = new ImageSpawner()
 				.setContainer(_imageContainer)
 				.setImageSource(getNextImageSource())
