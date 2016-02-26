@@ -21,14 +21,19 @@ public class ScreenPlayPlayer : MonoBehaviour {
 	private ScreenPlay _screenPlay;
 
 	public AudioSource[] _audioSources;
+	public GameObject _imageContainer;
+	public GameObject[] _imageSources;
+
 	public string screenPlayName;
 
 	private RingList<AudioSource> _audioSourcesRing;
+	private RingList<GameObject> _imageSourcesRing;
 
 	public void Start() {
 		Spawner.init(this);
 		_screenPlay = ScreenPlay.loadFromFile(screenPlayName);
 		_audioSourcesRing = new RingList<AudioSource>(_audioSources);
+		_imageSourcesRing = new RingList<GameObject> (_imageSources);
 
 		// TODO: Move to action section
 		play();
@@ -38,7 +43,9 @@ public class ScreenPlayPlayer : MonoBehaviour {
 		return _audioSourcesRing.getNext();
 	}
 
-	// TODO: Get next image spawner
+	private GameObject getNextImageSource() {
+		return _imageSourcesRing.getNext();
+	}
 
 	private float getNextTimestamp(float currentTime, Delay delay) {
 		switch (delay.type) {
@@ -67,7 +74,8 @@ public class ScreenPlayPlayer : MonoBehaviour {
 			break;
 		case ItemType.image:
 			spawner = new ImageSpawner()
-				// TODO: Set image source
+				.setContainer(_imageContainer)
+				.setImageSource(getNextImageSource())
 				.setMediaObject(Resources.Load(screenPlayItem.url) as Texture);
 			break;
 		default:

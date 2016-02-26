@@ -53,7 +53,27 @@ public class AudioSpawner : MediaSpawner<AudioClip> {
 }
 
 public class ImageSpawner : MediaSpawner<Texture> {
+	private GameObject _container;
+	private GameObject _imageSource;
+
+	public ImageSpawner setImageSource(GameObject imageSource) {
+		_imageSource = imageSource;
+		return this;
+	}
+
+	public ImageSpawner setContainer(GameObject container) {
+		_container = container;
+		return this;
+	}
+
 	public override void spawn() {
-		Debug.Log("TODO: Spawn image");
+		GameObject content = null;
+		Texture tex = getMediaObject();
+
+		Debug.Log ("Spawn texture: " + tex.name);
+		content = GameObject.Instantiate (_container, _imageSource.transform.position, _imageSource.transform.rotation) as GameObject;
+
+		content.GetComponent<Renderer> ().material.SetTexture ("_MainTex", tex);
+		content.GetComponent<Renderer> ().material.SetTexture ("_EmissionMap", tex);
 	}
 }
