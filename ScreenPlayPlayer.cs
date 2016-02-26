@@ -93,8 +93,8 @@ public class ScreenPlayPlayer : MonoBehaviour {
 		foreach (ScreenPlayItem item in _screenPlay.getItems()) {
 			spawner = getSpawnerForItem(item);
 
+			currentTime = getNextTimestamp(currentTime, item.delay);
 			if (spawner != null) {
-				currentTime = getNextTimestamp(currentTime, item.delay);
 				Debug.Log("Spawning " + item + " after " + currentTime);
 				spawner.spawnDelayed(currentTime);
 			}
