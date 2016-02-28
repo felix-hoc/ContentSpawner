@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 
 public class RingList<T> {
 	private T[] _itemList;
@@ -30,11 +31,15 @@ public class ScreenPlayPlayer : MonoBehaviour {
 	private RingList<AudioSource> _audioSourcesRing;
 	private RingList<GameObject> _imageSourcesRing;
 
+	private List<Spawner> _spawners = new List<Spawner>();
+
 	public void Start() {
 		Spawner.init(this);
 		_screenPlay = ScreenPlay.loadFromFile(screenPlayName);
 		_audioSourcesRing = new RingList<AudioSource>(_audioSources);
 		_imageSourcesRing = new RingList<GameObject> (_imageSources);
+
+		instanciateSpawners();
 
 		if (_autostart)
 			play();
@@ -89,7 +94,7 @@ public class ScreenPlayPlayer : MonoBehaviour {
 		return spawner;
 	}
 
-	public void play() {
+	private void instanciateSpawners() {
 		float currentTime = 0f;
 		Spawner spawner = null;
 
@@ -100,8 +105,13 @@ public class ScreenPlayPlayer : MonoBehaviour {
 			if (spawner != null) {
 				Debug.Log("Spawning " + item + " after " + currentTime);
 				spawner.setDelay(currentTime);
-				spawner.spawnDelayed();
+				_spawners.Add(spawner);
 			}
 		}
+	}
+
+	public void play() {
+		foreach (Spawner spawner in _spawners)
+			spawner.spawnDelayed();
 	}
 }
