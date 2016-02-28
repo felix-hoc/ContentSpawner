@@ -99,7 +99,8 @@ public class ScreenPlayPlayer : MonoBehaviour {
 			currentTime = getNextTimestamp(currentTime, item.delay);
 			if (spawner != null) {
 				Debug.Log("Spawning " + item + " after " + currentTime);
-				spawner.spawnDelayed(currentTime);
+				spawner.setDelay(currentTime);
+				spawner.spawnDelayed();
 			}
 		}
 	}

@@ -3,7 +3,9 @@ using System.Collections;
 
 public abstract class Spawner {
 	private static MonoBehaviour _monoBehaviour;
-	
+
+	private float _delay = 0f;
+
 	public static void init(MonoBehaviour monoBehaviour) {
 		_monoBehaviour = monoBehaviour;
 	}
@@ -12,8 +14,13 @@ public abstract class Spawner {
 		return _monoBehaviour;
 	}
 
-	public void spawnDelayed(float delaySeconds = 0) {
-		getMonoBehaviour().StartCoroutine(_spawnDelayed(delaySeconds));
+	public Spawner setDelay(float delay) {
+		_delay = delay;
+		return this;
+	}
+
+	public void spawnDelayed() {
+		getMonoBehaviour().StartCoroutine(_spawnDelayed(_delay));
 	}
 	
 	private IEnumerator _spawnDelayed(float delaySeconds = 0) {
