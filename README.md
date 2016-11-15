@@ -43,3 +43,5 @@ The ScreenPlay definition file has to be in the same folder as the binary or in 
 0 .... absolute to play command
 
 1 .... relative to previous item
+
+2 .... relative to previous item, but is spawned by a temporal offset (to allow sync with audio)

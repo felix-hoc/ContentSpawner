@@ -10,7 +10,8 @@ public enum ItemType {
 
 public enum DelayType {
 	absolute,
-	relativeToPrevious
+	relativeToPrevious,
+    relativeSynchronized
 }
 
 [System.Serializable]

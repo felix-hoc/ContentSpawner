@@ -25,6 +25,8 @@ public class ScreenPlayPlayer : MonoBehaviour {
 	public GameObject _imageContainer;
 	public GameObject[] _imageSources;
 
+    public float _imageSyncOffset = -7.0f;
+
 	public string screenPlayName;
 	public bool _autostart = false;
 
@@ -51,22 +53,6 @@ public class ScreenPlayPlayer : MonoBehaviour {
 
 	private GameObject getNextImageSource() {
 		return _imageSourcesRing.getNext();
-	}
-
-	private float getNextTimestamp(float currentTime, Delay delay) {
-		switch (delay.type) {
-		case DelayType.absolute:
-			currentTime = delay.seconds;
-			break;
-		case DelayType.relativeToPrevious:
-			currentTime += delay.seconds;
-			break;
-		default:
-			Debug.Log("Unknown delay type: " + delay);
-			break;
-		}
-
-		return currentTime;
 	}
 
 	private Spawner getSpawnerForItem(ScreenPlayItem screenPlayItem) {
@@ -101,10 +87,35 @@ public class ScreenPlayPlayer : MonoBehaviour {
 		foreach (ScreenPlayItem item in _screenPlay.getItems()) {
 			spawner = getSpawnerForItem(item);
 
-			currentTime = getNextTimestamp(currentTime, item.delay);
-			if (spawner != null) {
-				Debug.Log("Spawning " + item + " after " + currentTime);
-				spawner.setDelay(currentTime);
+            //currentTime = getNextTimestamp(currentTime, item.delay);
+            // Get next timestamp and spawn time
+
+            float spawnTime = currentTime;
+
+            switch (item.delay.type) {
+                case DelayType.absolute:
+                    currentTime = item.delay.seconds;
+                    spawnTime = currentTime;
+                    break;
+                case DelayType.relativeToPrevious:
+                    currentTime += item.delay.seconds;
+                    spawnTime = currentTime;
+                    break;
+                case DelayType.relativeSynchronized:
+                    currentTime += item.delay.seconds;
+                    spawnTime = currentTime + _imageSyncOffset;
+                    break;
+                default:
+                    Debug.Log("Unknown delay type: " + item.delay);
+                    break;
+            }
+
+
+
+
+            if (spawner != null) {
+				Debug.Log("Spawning " + item + " after " + spawnTime);
+				spawner.setDelay(spawnTime);
 				_spawners.Add(spawner);
 			}
 		}
